@@ -1,1 +1,1 @@
-# 7th_UMC_Spring
+# UMC7th_Springboot
