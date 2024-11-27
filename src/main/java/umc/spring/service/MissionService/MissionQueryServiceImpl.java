@@ -37,6 +37,11 @@ public class MissionQueryServiceImpl implements MissionQueryService {
         return null;
     }
 
+    @Override
+    public boolean isMissionExist(Long value) {
+        return missionRepository.existsById(value);
+    }
+
 
     @Override
     public boolean findByMemberIdAndMissionIdAndStatus(Long memberId, Long missionId, MissionStatus status) {

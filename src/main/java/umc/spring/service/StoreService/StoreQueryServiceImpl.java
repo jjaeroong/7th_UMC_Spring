@@ -1,9 +1,15 @@
 package umc.spring.service.StoreService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import umc.spring.domain.Mission;
+import umc.spring.domain.Review;
 import umc.spring.domain.Store;
+import umc.spring.repository.MissionRepository.MissionRepository;
+import umc.spring.repository.ReviewManageRepository.ReviewManageRepository;
 import umc.spring.repository.StoreRepository.StoreRepository;
 
 import java.util.List;
@@ -15,7 +21,16 @@ import java.util.Optional;
 public class StoreQueryServiceImpl implements StoreQueryService{
 
     private final StoreRepository storeRepository;
+    private final MissionRepository missionRepository;
+    private final ReviewManageRepository reviewRepository;
+    @Override
+    public Page<Review> getReviewList(Long StoreId, Integer page) {
 
+        Store store = storeRepository.findById(StoreId).get();
+
+        Page<Review> StorePage = reviewRepository.findAllByStore(store, PageRequest.of(page, 10));
+        return StorePage;
+    }
     @Override
     public Optional<Store> findStore(Long id) {
         return storeRepository.findById(id);
@@ -30,7 +45,14 @@ public class StoreQueryServiceImpl implements StoreQueryService{
         return filteredStores;
     }
     @Override
+    public Page<Mission> getMissionList(Long storeId, Integer page) {
+        Store store = storeRepository.findById(storeId).get();
+        Page<Mission> missionPage = missionRepository.findAllByStore(store, PageRequest.of(page - 1, 10));
+        return missionPage;
+    }
+    @Override
     public boolean isStoreExist(Long value) {
         return storeRepository.existsById(value);
     }
+
 }

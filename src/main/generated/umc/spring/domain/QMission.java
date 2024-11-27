@@ -35,6 +35,8 @@ public class QMission extends EntityPathBase<Mission> {
 
     public final StringPath missionSpec = createString("missionSpec");
 
+    public final NumberPath<Integer> price = createNumber("price", Integer.class);
+
     public final NumberPath<Integer> reward = createNumber("reward", Integer.class);
 
     public final QStore store;

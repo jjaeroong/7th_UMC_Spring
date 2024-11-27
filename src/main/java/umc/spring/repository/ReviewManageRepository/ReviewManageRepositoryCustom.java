@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ReviewManageRepositoryCustom {
     List<ReviewManageDTO> findReviewListByStore(Long storeId);
+
+
 }

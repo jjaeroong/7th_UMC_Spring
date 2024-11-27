@@ -1,10 +1,14 @@
 package umc.spring.service.MissionService;
 
 import umc.spring.domain.Mission;
+import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.MemberMission;
 import umc.spring.web.dto.MissionRequestDTO;
 
 public interface MissionCommandService {
     Mission addMissionToStore(MissionRequestDTO.AddMissionDTO request);
-    MemberMission updateMissionStatus(MissionRequestDTO.UpdateMissionStatusDTO request);
+
+
+    MemberMission updateMissionStatus(Long memberId, Long missionId, MissionStatus status);
+
 }
