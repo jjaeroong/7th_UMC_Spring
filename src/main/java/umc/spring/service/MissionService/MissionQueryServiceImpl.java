@@ -1,33 +1,45 @@
 package umc.spring.service.MissionService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import umc.spring.domain.Mission;
 import umc.spring.domain.enums.MissionStatus;
+import umc.spring.repository.MemberRepository.MemberRepository;
+import umc.spring.repository.MissionRepository.MemberMissionRepository;
 import umc.spring.repository.MissionRepository.MissionRepository;
 
-import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MissionQueryServiceImpl implements MissionQueryService{
+public class MissionQueryServiceImpl implements MissionQueryService {
+    private MissionRepository missionRepository;
+    private MemberRepository memberRepository;
+    private MemberMissionRepository memberMissionRepository;
 
-    private final MissionRepository missionRepository;
 
     @Override
-    public Optional<Mission> findMission(Long id) {
-        return missionRepository.findById(id);
+    public Page<Mission> findMissionByMemberIdAndStatus(Long memberId, MissionStatus status, Long lastMissionId, Pageable pageable) {
+        return null;
     }
 
     @Override
-    public List<Mission> findMissionByMissionStatus(MissionStatus status) {
-        List<Mission> missions = missionRepository.dynamicQueryWithBooleanBuilder(status);
+    public int findCompletedMissionCountByMemberIdAndStatus(Long memberId, MissionStatus status) {
+        int count = missionRepository.findCompletedMissionCountByMemberIdAndStatus(memberId, status);
+        System.out.println("Completed Mission Count: " + count);
+        return count;
+    }
 
-        missions.forEach(mission -> System.out.println("Mission: " + mission));
+    @Override
+    public Page<Mission> findNotStartedMissionByMemberIdAndStatusAndRegionName(Long memberId, MissionStatus status, String regionName, Long lastMissionId, Pageable pageable) {
+        return null;
+    }
 
-        return missions;
+
+    @Override
+    public boolean findByMemberIdAndMissionIdAndStatus(Long memberId, Long missionId, MissionStatus status) {
+        return memberMissionRepository.findByMemberIdAndMissionIdAndStatus(memberId, missionId, status).isPresent();
     }
 }

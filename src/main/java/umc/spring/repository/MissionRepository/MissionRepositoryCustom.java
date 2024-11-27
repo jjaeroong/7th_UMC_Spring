@@ -6,6 +6,6 @@ import umc.spring.domain.enums.MissionStatus;
 import java.util.List;
 
 public interface MissionRepositoryCustom {
-    List<Mission> dynamicQueryWithBooleanBuilder(MissionStatus status);
+    int findCompletedMissionCountByMemberIdAndStatus(Long memberId, MissionStatus status);
 }
 

@@ -1,39 +1,62 @@
 package umc.spring.domain;
 
+
 import jakarta.persistence.*;
 import lombok.*;
-import umc.spring.domain.mapping.MemberAgree;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import umc.spring.domain.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@DynamicUpdate
+@DynamicInsert
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Review extends BaseEntity{
-
+public class Review extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String body;
-
-    @Column(nullable = false)
-    private Float score;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id") // Join column name 설정
-    private Member member; // Member 엔티티와의 관계를 위한 필드 추가
-
+    @JoinColumn(name = "member_id")
+    private Member member;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
-
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String body;
+    @ColumnDefault("0")
+    private float score;
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-    private final List<ReviewImage> reviewImageList = new ArrayList<>();
+    private List<ReviewImage> reviewImageList = new ArrayList<>();
 
+    public void setMember(Member member) {
+        if(this.member != null)
+            this.member.getReviewList().remove(this);
+        this.member = member;
+        this.member.getReviewList().add(this);
+    }
 
+    public void setStore(Store store) {
+        if(this.store != null)
+            this.store.getReviewList().remove(this);
+        this.store = store;
+        this.store.getReviewList().add(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", member_id=" + (member != null ? member.getId() : "null") +
+                ", store_id=" + (store != null ? store.getId() : "null") +
+                ", body='" + body + '\'' +
+                ", score=" + score +
+                '}';
+    }
 }

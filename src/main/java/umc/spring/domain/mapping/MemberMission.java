@@ -29,4 +29,7 @@ public class MemberMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id") // Mission을 참조하는 필드 추가
     private Mission mission; // Mission 엔티티와의 관계를 위한 필드 추가
+    public void setStatus(MissionStatus status) {
+        this.status = status;
+    }
 }
