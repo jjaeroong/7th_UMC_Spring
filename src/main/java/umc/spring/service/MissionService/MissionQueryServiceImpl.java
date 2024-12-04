@@ -12,7 +12,8 @@ import umc.spring.repository.MissionRepository.MemberMissionRepository;
 import umc.spring.repository.MissionRepository.MissionRepository;
 
 import java.util.Optional;
-
+@Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MissionQueryServiceImpl implements MissionQueryService {
     private MissionRepository missionRepository;

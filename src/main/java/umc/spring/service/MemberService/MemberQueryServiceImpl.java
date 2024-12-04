@@ -47,4 +47,5 @@ public class MemberQueryServiceImpl implements MemberQueryService{
         Page<MemberMission> memberPage = memberMissionRepository.findAllByMemberAndStatus(member, MissionStatus.IN_PROGRESS, PageRequest.of(page - 1, 10));
         return memberPage;
     }
+
 }
